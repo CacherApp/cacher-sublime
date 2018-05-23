@@ -9,7 +9,7 @@ from . import store, util
 
 # Load config
 file_dir = os.path.dirname(__file__)
-with open(os.path.join(file_dir, "config.dev.yml"), "r") as ymlfile:
+with open(os.path.join(file_dir, "config.yml"), "r") as ymlfile:
     config = yaml.load(ymlfile)
 
 
@@ -36,7 +36,7 @@ class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
 class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
     def __init__(self, view):
         self.view = view
-        # webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
+        webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
 
     @staticmethod
     def placeholder():
