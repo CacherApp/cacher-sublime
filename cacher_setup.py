@@ -5,9 +5,11 @@ import json
 import urllib
 import yaml
 import os
+from . import store, util
 
+# Load config
 file_dir = os.path.dirname(__file__)
-with open(os.path.join(file_dir, "config.yml"), "r") as ymlfile:
+with open(os.path.join(file_dir, "config.dev.yml"), "r") as ymlfile:
     config = yaml.load(ymlfile)
 
 
@@ -34,7 +36,7 @@ class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
 class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
     def __init__(self, view):
         self.view = view
-        webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
+        # webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
 
     @staticmethod
     def placeholder():
@@ -63,10 +65,13 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
         try:
             req = urllib.request.Request(url, data=None, headers=headers, method="POST")
             urllib.request.urlopen(req)
+
+            store.set_val("logged_in", True)
+            util.save_credentials(setup_api_key_handler, setup_api_token_handler)
+
+            sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:
             self._handle_error(e)
-
-        # sublime.status_message("Cacher: Token is valid!")
 
     def input(self, args):
         return SetupApiKeyHandler(self.view)
