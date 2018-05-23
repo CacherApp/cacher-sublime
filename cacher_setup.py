@@ -5,11 +5,11 @@ import json
 import urllib
 import yaml
 import os
-from . import store, util
+from .lib import store, util
 
 # Load config
 file_dir = os.path.dirname(__file__)
-with open(os.path.join(file_dir, "config.yml"), "r") as ymlfile:
+with open(os.path.join(file_dir, "config.dev.yml"), "r") as ymlfile:
     config = yaml.load(ymlfile)
 
 
@@ -60,7 +60,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             'X-Api-Key': setup_api_key_handler,
             'x-Api-Token': setup_api_token_handler
         }
-        url = "{0}/vscode/validate".format(config["hosts"]["api"])
+        url = "{0}/sublime/validate".format(config["hosts"]["api"])
 
         try:
             req = urllib.request.Request(url, data=None, headers=headers, method="POST")
