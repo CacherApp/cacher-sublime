@@ -1,3 +1,4 @@
+import sublime
 import json
 import urllib
 from . import store, util
@@ -32,6 +33,8 @@ def load_snippets():
         __set_store(data)
         global initialized
         initialized = True
+
+        sublime.status_message("Cacher: Snippets loaded")
     except urllib.error.HTTPError as e:
         return
 

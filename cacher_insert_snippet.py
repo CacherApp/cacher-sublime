@@ -21,7 +21,7 @@ class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):
                     for label in snippet["labels"]:
                         description = "({0}) {1}".format(label, description)
 
-                title = "{0} - {1}".format(snippet["title"], description)
+                title = "{0} / {1} - {2}".format(snippet["title"], file["filename"], description)
                 list_snippets.append(
                     (title, file["content"])
                 )
