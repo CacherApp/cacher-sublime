@@ -3,7 +3,7 @@ import sublime_plugin
 import webbrowser
 import json
 import urllib
-from .lib import store, util
+from .lib import store, util, snippets
 
 config = util.load_config()
 
@@ -63,6 +63,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
 
             store.set_val("logged_in", True)
             util.save_credentials(setup_api_key_handler, setup_api_token_handler)
+            snippets.initialize()
 
             sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:
