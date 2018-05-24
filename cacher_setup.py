@@ -3,14 +3,9 @@ import sublime_plugin
 import webbrowser
 import json
 import urllib
-import yaml
-import os
 from .lib import store, util
 
-# Load config
-file_dir = os.path.dirname(__file__)
-with open(os.path.join(file_dir, "config.dev.yml"), "r") as ymlfile:
-    config = yaml.load(ymlfile)
+config = util.load_config()
 
 
 def validate_input(expr):
@@ -71,13 +66,13 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
 
             sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:
-            self._handle_error(e)
+            self.__handle_error(e)
 
     def input(self, args):
         return SetupApiKeyHandler(self.view)
 
     @staticmethod
-    def _handle_error(e):
+    def __handle_error(e):
         resp = json.loads(e.read().decode("utf8"))
 
         if e.code == 403:

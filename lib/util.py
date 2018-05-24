@@ -1,5 +1,6 @@
 import os.path
 import json
+import yaml
 
 home = os.path.expanduser("~")
 cacher_dir = os.path.join(home, ".cacher")
@@ -24,5 +25,15 @@ def save_credentials(key, token):
 
     with open(credentials_file, "w") as file:
         content = {"key": key, "token": token}
-        with open(credentials_file, "w") as creds_file:
-            json.dump(content, creds_file)
+        json.dump(content, file)
+
+
+def load_config():
+    file_dir = os.path.dirname(__file__)
+    config_file = os.path.join(file_dir, "../", "config.dev.yml")
+
+    with open(config_file, "r") as ymlfile:
+        return yaml.load(ymlfile)
+
+
+
