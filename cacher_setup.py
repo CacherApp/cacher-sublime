@@ -3,9 +3,12 @@ import sublime_plugin
 import webbrowser
 import json
 import urllib
+import time
 from .lib import store, util, snippets
 
 config = util.load_config()
+global last_run
+last_run = -1
 
 
 def validate_input(expr):
@@ -69,6 +72,12 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             self.__handle_error(e)
 
     def input(self, args):
+        # De-dupe multiple calls
+        global last_run
+        if int(time.time()) - last_run < 5:
+            return SetupApiKeyHandler(self.view)
+        last_run = int(time.time())
+
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
             webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
         return SetupApiKeyHandler(self.view)
@@ -81,6 +90,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             if resp["error_code"] == "NoPermission":
                 sublime.error_message("Cacher API key or token not valid. Please try again.")
             else:
-                sublime.error_message("Upgrade to the Pro or Team plan to use Sublime with Cacher.")
+                if sublime.ok_cancel_dialog("Upgrade to the Pro or Team plan to use Sublime with Cacher.", "View Plans"):
+                    webbrowser.open("{0}/enter?action=view_plans".format(config["hosts"]["app"]))
         else:
             sublime.error_message("There was an error communicating with Cacher. Please try again.")

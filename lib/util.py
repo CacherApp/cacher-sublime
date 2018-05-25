@@ -35,5 +35,3 @@ def load_config():
     with open(config_file, "r") as ymlfile:
         return yaml.load(ymlfile)
 
-
-
