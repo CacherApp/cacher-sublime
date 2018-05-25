@@ -69,7 +69,8 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             self.__handle_error(e)
 
     def input(self, args):
-        webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
+        if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
+            webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
         return SetupApiKeyHandler(self.view)
 
     @staticmethod
