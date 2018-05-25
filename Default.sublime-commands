@@ -17,7 +17,7 @@
     },
     {
         "caption": "Cacher: Open Snippet Page",
-        "command": "cacher_open_snippet"
+        "command": "cacher_open_snippet_page"
     },
     {
         "caption": "Cacher: Refresh Snippets",

@@ -13,6 +13,34 @@ def initialize():
         load_snippets()
 
 
+def snippet_with_guid(guid):
+    for snippet in store.get_val("snippets"):
+        if snippet["guid"] == guid:
+            return snippet
+
+    return None
+
+
+def snippets_for_list():
+    list_snippets = []
+
+    for snippet in store.get_val("snippets"):
+        description = snippet["description"] or ""
+
+        if snippet["team"]:
+            description = "[{0}] {1}".format(snippet["team"]["name"], description)
+
+        if len(snippet["labels"]) > 0:
+            for label in snippet["labels"]:
+                description = "({0}) {1}".format(label, description)
+
+        title = "{0} - {1}".format(snippet["title"], description)
+        list_snippets.append(
+            (title, snippet["guid"])
+        )
+    return list_snippets
+
+
 def load_snippets():
     if not util.credentials_exist():
         return

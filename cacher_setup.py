@@ -65,7 +65,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
 
             store.set_val("logged_in", True)
             util.save_credentials(setup_api_key_handler, setup_api_token_handler)
-            snippets.initialize()
+            snippets.load_snippets()
 
             sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:

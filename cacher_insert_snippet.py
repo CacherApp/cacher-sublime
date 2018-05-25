@@ -37,6 +37,9 @@ class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def preview(value):
+        if not value:
+            return ""
+
         # Just the first 10 lines
         content = ""
         for line in value.splitlines()[:11]:
@@ -52,6 +55,9 @@ class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):
 
 class CacherInsertSnippet(sublime_plugin.TextCommand):
     def run(self, edit, insert_snippet):
+        if not insert_snippet:
+            return
+
         selection = self.view.sel()
         for region in selection:
             self.view.replace(edit, region, insert_snippet)
