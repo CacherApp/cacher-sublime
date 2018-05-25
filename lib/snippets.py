@@ -17,16 +17,10 @@ def load_snippets():
     if not util.credentials_exist():
         return
 
-    credentials = util.get_credentials()
-
-    headers = {
-        'X-Api-Key': credentials["key"],
-        'x-Api-Token': credentials["token"]
-    }
     url = "{0}/sublime/snippets".format(config["hosts"]["api"])
 
     try:
-        req = urllib.request.Request(url, data=None, headers=headers)
+        req = urllib.request.Request(url, data=None, headers=__headers())
         resp = urllib.request.urlopen(req)
         data = json.loads(resp.read().decode("utf8"))
 
@@ -37,6 +31,14 @@ def load_snippets():
         sublime.status_message("Cacher: Snippets loaded")
     except urllib.error.HTTPError as e:
         return
+
+
+def __headers():
+    credentials = util.get_credentials()
+    return {
+        'X-Api-Key': credentials["key"],
+        'x-Api-Token': credentials["token"]
+    }
 
 
 def __set_store(data):
