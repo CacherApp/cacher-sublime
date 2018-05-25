@@ -1,0 +1,26 @@
+[
+    {
+        "caption": "Cacher: Setup",
+        "command": "cacher_setup"
+    },
+    {
+        "caption": "Cacher: Insert Snippet",
+        "command": "cacher_insert_snippet"
+    },
+    {
+        "caption": "Cacher: Create Snippet",
+        "command": "cacher_create_snippet"
+    },
+    {
+        "caption": "Cacher: Open Snippet in App",
+        "command": "cacher_open_snippet"
+    },
+    {
+        "caption": "Cacher: Open Snippet Page",
+        "command": "cacher_open_snippet"
+    },
+    {
+        "caption": "Cacher: Refresh Snippets",
+        "command": "cacher_refresh"
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "keys": [
+            "shift+alt+i"
+        ],
+        "command": "cacher_insert_snippet"
+    },
+    {
+        "keys": [
+            "shift+alt+c"
+        ],
+        "command": "cacher_create_snippet"
+    },
+    {
+        "keys": [
+            "shift+alt+o"
+        ],
+        "command": "cacher_open_snippet"
+    },
+    {
+        "keys": [
+            "shift+alt+p"
+        ],
+        "command": "cacher_open_snippet"
+    },
+    {
+        "keys": [
+            "shift+alt+r"
+        ],
+        "command": "cacher_refresh"
+    }
+]
