@@ -1,8 +1,15 @@
 import sublime_plugin
 import sublime
-from .lib import store, snippets
+from .lib import store, snippets, util
 
-snippets.initialize()
+
+# Called when Cacher loads
+def plugin_loaded():
+    if not util.credentials_exist():
+        if sublime.ok_cancel_dialog("Cacher needs to be setup before use", "Start Setup"):
+            sublime.active_window().active_view().run_command("cacher_setup")
+    else:
+        snippets.initialize()
 
 
 class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):

@@ -31,7 +31,6 @@ class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
 class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
     def __init__(self, view):
         self.view = view
-        webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
 
     @staticmethod
     def placeholder():
@@ -70,6 +69,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             self.__handle_error(e)
 
     def input(self, args):
+        webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
         return SetupApiKeyHandler(self.view)
 
     @staticmethod
