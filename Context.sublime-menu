@@ -1,0 +1,15 @@
+[
+    {
+        "caption": "Cacher",
+        "children": [
+            {
+                "command": "cacher_create_snippet",
+                "caption": "Create Snippet"
+            },
+            {
+                "command": "cacher_insert_snippet",
+                "caption": "Insert Snippet"
+            }
+        ]
+    }
+]

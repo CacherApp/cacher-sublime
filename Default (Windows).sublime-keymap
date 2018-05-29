@@ -21,7 +21,7 @@
         "keys": [
             "shift+alt+p"
         ],
-        "command": "cacher_open_snippet"
+        "command": "cacher_open_snippet_page"
     },
     {
         "keys": [
