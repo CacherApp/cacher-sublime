@@ -16,9 +16,6 @@ def validate_input(expr):
 
 
 class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
-    def __init__(self, view):
-        self.view = view
-
     @staticmethod
     def placeholder():
         return "API Token"
@@ -27,14 +24,12 @@ class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
     def validate(expr):
         return validate_input(expr)
 
-    def confirm(self, text):
-        return [self.view.api_key, text]
+    @staticmethod
+    def confirm(text):
+        return text
 
 
 class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
-    def __init__(self, view):
-        self.view = view
-
     @staticmethod
     def placeholder():
         return "API Key"
@@ -43,12 +38,13 @@ class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
     def validate(expr):
         return validate_input(expr)
 
-    def confirm(self, text):
-        self.view.api_key = text
+    @staticmethod
+    def confirm(text):
         return text
 
-    def next_input(self, args):
-        return SetupApiTokenHandler(self.view)
+    @staticmethod
+    def next_input(args):
+        return SetupApiTokenHandler()
 
 
 class CacherSetupCommand(sublime_plugin.TextCommand):
@@ -71,16 +67,17 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
         except urllib.error.HTTPError as e:
             self.__handle_error(e)
 
-    def input(self, args):
+    @staticmethod
+    def input(args):
         # De-dupe multiple calls
         global last_run
         if int(time.time()) - last_run < 5:
-            return SetupApiKeyHandler(self.view)
+            return SetupApiKeyHandler()
         last_run = int(time.time())
 
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
             webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
-        return SetupApiKeyHandler(self.view)
+        return SetupApiKeyHandler()
 
     @staticmethod
     def __handle_error(e):

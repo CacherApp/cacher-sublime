@@ -1,6 +1,6 @@
 store = {
     "logged_in": False,
-    "personal_library": [],
+    "personal_library": None,
     "teams": [],
     "snippets": []
 }
