@@ -4,7 +4,13 @@
         "children": [
             {
                 "command": "cacher_create_snippet",
-                "caption": "Create Snippet"
+                "caption": "Create Snippet",
+                "args": {
+                    "files": [],
+                    "group": -1,
+                    "index": -1,
+                    "snippet_library": ""
+                }
             },
             {
                 "command": "cacher_insert_snippet",
