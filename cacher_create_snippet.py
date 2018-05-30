@@ -194,13 +194,7 @@ class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
 
 class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
     @staticmethod
-    def run(snippet_library,
-            snippet_title,
-            snippet_description,
-            snippet_filename,
-            snippet_public_private,
-            snippet_label,
-            **args):
+    def run(snippet_library, **args):
         group = None
         if "group" in args:
             group = args["group"]
@@ -213,12 +207,6 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
         if "files" in args:
             files = args["files"]
 
-        print(snippet_library)
-        print(snippet_title)
-        print(snippet_description)
-        print(snippet_filename)
-        print(snippet_public_private)
-        print(snippet_label)
         print(args)
 
         if (group is not None and group >= 0) and (index is not None and index >= 0):
