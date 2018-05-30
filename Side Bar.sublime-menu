@@ -6,7 +6,6 @@
         "command": "cacher_create_snippet",
         "caption": "Create Cacher Snippet",
         "args": {
-            "files": [],
             "group": -1,
             "index": -1
         }
