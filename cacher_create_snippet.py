@@ -4,7 +4,7 @@ import ntpath
 import json
 import urllib
 
-from .lib import store, util
+from .lib import store, util, filetypes
 
 config = util.load_config()
 
@@ -218,11 +218,12 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
             # Creating snippet from tab context
             view = sublime.active_window().sheets_in_group(group)[index].view()
             content = view.substr(sublime.Region(0, view.size()))
+            filetype = filetypes.get_mode_for_filename(args["snippet_filename"])
 
             snippet["files"] = [{
                 "filename": args["snippet_filename"],
                 "content": content,
-                "filetype": "text",
+                "filetype": filetype,
                 "isShared": False
             }]
         elif files is not None and len(files) > 0:
@@ -231,10 +232,12 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
 
             for file in files:
                 with open(file, "r") as f:
+                    filetype = filetypes.get_mode_for_filename(file)
+
                     snippet_files.append({
                         "filename": ntpath.basename(file),
                         "content": f.read(),
-                        "filetype": "text",
+                        "filetype": filetype,
                         "isShared": False
                     })
 
@@ -250,10 +253,12 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
                 # The selection
                 content = view.substr(region)
 
+            filetype = filetypes.get_mode_for_filename(args["snippet_filename"])
+
             snippet["files"] = [{
                 "filename": args["snippet_filename"],
                 "content": content,
-                "filetype": "text",
+                "filetype": filetype,
                 "isShared": False
             }]
 
