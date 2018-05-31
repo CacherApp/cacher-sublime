@@ -18,63 +18,80 @@ def library_labels(library_guid):
     return library["labels"]
 
 
-class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
+class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
     def __init__(self, args):
         self.args = args
 
     @staticmethod
     def placeholder():
-        return "Label (optional)"
-
-    def list_items(self):
-        library_guid = store.get_val("personal_library")["guid"]
-
-        if "snippet_library" in self.args:
-            library_guid = self.args["snippet_library"]
-
-        labels = library_labels(library_guid)
-        label_items = list(map(lambda lab: (lab["title"], lab["guid"]), labels))
-
-        return [
-            ("(No label)", None)
-        ] + label_items
-
-    @staticmethod
-    def confirm(label_guid):
-        return label_guid
-
-
-class SnippetPublicPrivateInputHandler(sublime_plugin.ListInputHandler):
-    def __init__(self, args):
-        self.args = args
-
-    @staticmethod
-    def placeholder():
-        return "Permission"
+        return "Select library"
 
     @staticmethod
     def list_items():
-        return [
-            ("Private", True),
-            ("Public", False)
-        ]
+        items = []
+
+        # Personal
+        personal_library_guid = store.get_val("personal_library")["guid"]
+        items.append(
+            ("Personal Library", personal_library_guid)
+        )
+
+        # Teams
+        for team in store.get_val("teams"):
+            items.append(
+                (team["name"], team["library"]["guid"])
+            )
+
+        return items
 
     @staticmethod
-    def confirm(is_private):
-        return is_private
+    def confirm(guid):
+        return guid
 
     @staticmethod
     def next_input(args):
-        library_guid = store.get_val("personal_library")["guid"]
+        return SnippetTitleInputHandler(args)
 
-        if "snippet_library" in args:
-            library_guid = args["snippet_library"]
 
-        # Only show labels if available
-        if len(library_labels(library_guid)) > 0:
-            return SnippetLabelInputHandler(args)
+class SnippetTitleInputHandler(sublime_plugin.TextInputHandler):
+    def __init__(self, args):
+        self.args = args
+
+    @staticmethod
+    def placeholder():
+        return "Title (required)"
+
+    @staticmethod
+    def validate(expr):
+        return util.validate_input(expr)
+
+    @staticmethod
+    def confirm(title):
+        return title
+
+    @staticmethod
+    def next_input(args):
+        return SnippetDescriptionInputHandler(args)
+
+
+class SnippetDescriptionInputHandler(sublime_plugin.TextInputHandler):
+    def __init__(self, args):
+        self.args = args
+
+    @staticmethod
+    def placeholder():
+        return "Description (optional)"
+
+    @staticmethod
+    def confirm(description):
+        return description
+
+    @staticmethod
+    def next_input(args):
+        if ("files" in args) and len(args["files"]) > 0:
+            return SnippetPublicPrivateInputHandler(args)
         else:
-            return None
+            return SnippetFilenameInputHandler(args)
 
 
 class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
@@ -117,80 +134,63 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
         return SnippetPublicPrivateInputHandler(args)
 
 
-class SnippetDescriptionInputHandler(sublime_plugin.TextInputHandler):
+class SnippetPublicPrivateInputHandler(sublime_plugin.ListInputHandler):
     def __init__(self, args):
         self.args = args
 
     @staticmethod
     def placeholder():
-        return "Description (optional)"
-
-    @staticmethod
-    def confirm(description):
-        return description
-
-    @staticmethod
-    def next_input(args):
-        if ("files" in args) and len(args["files"]) > 0:
-            return SnippetPublicPrivateInputHandler(args)
-        else:
-            return SnippetFilenameInputHandler(args)
-
-
-class SnippetTitleInputHandler(sublime_plugin.TextInputHandler):
-    def __init__(self, args):
-        self.args = args
-
-    @staticmethod
-    def placeholder():
-        return "Title (required)"
-
-    @staticmethod
-    def validate(expr):
-        return util.validate_input(expr)
-
-    @staticmethod
-    def confirm(title):
-        return title
-
-    @staticmethod
-    def next_input(args):
-        return SnippetDescriptionInputHandler(args)
-
-
-class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
-    def __init__(self, args):
-        self.args = args
-
-    @staticmethod
-    def placeholder():
-        return "Select library"
+        return "Permission"
 
     @staticmethod
     def list_items():
-        items = []
-
-        # Personal
-        personal_library_guid = store.get_val("personal_library")["guid"]
-        items.append(
-            ("Personal Library", personal_library_guid)
-        )
-
-        # Teams
-        for team in store.get_val("teams"):
-            items.append(
-                (team["name"], team["library"]["guid"])
-            )
-
-        return items
+        return [
+            ("Private", True),
+            ("Public", False)
+        ]
 
     @staticmethod
-    def confirm(guid):
-        return guid
+    def confirm(is_private):
+        return is_private
 
     @staticmethod
     def next_input(args):
-        return SnippetTitleInputHandler(args)
+        library_guid = store.get_val("personal_library")["guid"]
+
+        if "snippet_library" in args:
+            library_guid = args["snippet_library"]
+
+        # Only show labels if available
+        if len(library_labels(library_guid)) > 0:
+            return SnippetLabelInputHandler(args)
+        else:
+            return None
+
+
+class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
+    def __init__(self, args):
+        self.args = args
+
+    @staticmethod
+    def placeholder():
+        return "Label (optional)"
+
+    def list_items(self):
+        library_guid = store.get_val("personal_library")["guid"]
+
+        if "snippet_library" in self.args:
+            library_guid = self.args["snippet_library"]
+
+        labels = library_labels(library_guid)
+        label_items = list(map(lambda lab: (lab["title"], lab["guid"]), labels))
+
+        return [
+                   ("(No label)", None)
+               ] + label_items
+
+    @staticmethod
+    def confirm(label_guid):
+        return label_guid
 
 
 class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
