@@ -1,7 +1,12 @@
 import sublime_plugin
 import sublime
 import ntpath
+import json
+import urllib
+
 from .lib import store, util
+
+config = util.load_config()
 
 
 def library_labels(library_guid):
@@ -206,13 +211,8 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
         snippet = {
             "title": args["snippet_title"],
             "description": args["snippet_description"],
-            "isPrivate": args["snippet_public_private"],
-            "libraryGuid": snippet_library,
-            "labels": list()
+            "isPrivate": args["snippet_public_private"]
         }
-
-        if "snippet_label" in args and args["snippet_label"] is not None:
-            snippet["labels"] = [args["snippet_label"]]
 
         if (group is not None and group >= 0) and (index is not None and index >= 0):
             # Creating snippet from tab context
@@ -257,7 +257,11 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
                 "isShared": False
             }]
 
-        self.__create_snippet(snippet)
+        labels = []
+        if "snippet_label" in args and args["snippet_label"] is not None:
+            labels = [args["snippet_label"]]
+
+        self.__create_snippet(snippet, labels, snippet_library)
 
     @staticmethod
     def input(args):
@@ -269,5 +273,25 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
             return SnippetTitleInputHandler(args)
 
     @staticmethod
-    def __create_snippet(snippet):
-        print(snippet)
+    def __create_snippet(snippet, labels, library_guid):
+        url = "{0}/sublime/snippets".format(config["hosts"]["api"])
+        data = {
+            "snippet": snippet,
+            "labels": labels,
+            "libraryGuid": library_guid
+        }
+
+        try:
+            req = urllib.request.Request(url, headers=util.request_headers(), method="POST")
+
+            json_data = json.dumps(data)
+            json_data_bytes = json_data.encode("utf-8")
+            req.add_header("Content-Type", "application/json; charset=utf-8")
+            req.add_header("Content-Length", len(json_data_bytes))
+
+            urllib.request.urlopen(req, json_data_bytes)
+            sublime.status_message("Cacher: Saved \"{0}\"".format(snippet["title"]))
+            sublime.active_window().run_command("cacher_refresh")
+        except urllib.error.HTTPError as e:
+            sublime.error_message("There was an error creating your snippet. Please try again.")
+            print(e)

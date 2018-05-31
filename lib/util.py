@@ -13,7 +13,7 @@ def credentials_exist():
 
 def get_credentials():
     if credentials_exist():
-        with open(credentials_file) as creds_file:
+        with open(credentials_file, "r") as creds_file:
             return json.load(creds_file)
     else:
         return None
@@ -38,3 +38,11 @@ def load_config():
 
 def validate_input(expr):
     return len(expr) > 0
+
+
+def request_headers():
+    credentials = get_credentials()
+    return {
+        'X-Api-Key': credentials["key"],
+        'x-Api-Token': credentials["token"]
+    }
