@@ -35,3 +35,6 @@ def load_config():
     with open(config_file, "r") as ymlfile:
         return yaml.load(ymlfile)
 
+
+def validate_input(expr):
+    return len(expr) > 0

@@ -1,11 +1,7 @@
 import sublime_plugin
 import sublime
 import ntpath
-from .lib import store
-
-
-def validate_input(expr):
-    return len(expr) > 0
+from .lib import store, util
 
 
 def library_labels(library_guid):
@@ -23,7 +19,7 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Attach label (optional)"
+        return "Label (optional)"
 
     def list_items(self):
         library_guid = store.get_val("personal_library")["guid"]
@@ -49,7 +45,7 @@ class SnippetPublicPrivateInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Select snippet permission"
+        return "Permission"
 
     @staticmethod
     def list_items():
@@ -82,7 +78,7 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Enter filename (required)"
+        return "Filename (required)"
 
     def initial_text(self):
         # Fetch the filename from active view
@@ -105,7 +101,7 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def validate(expr):
-        return validate_input(expr)
+        return util.validate_input(expr)
 
     @staticmethod
     def confirm(filename):
@@ -122,7 +118,7 @@ class SnippetDescriptionInputHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Enter snippet description (optional)"
+        return "Description (optional)"
 
     @staticmethod
     def confirm(description):
@@ -142,11 +138,11 @@ class SnippetTitleInputHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Enter snippet title (required)"
+        return "Title (required)"
 
     @staticmethod
     def validate(expr):
-        return validate_input(expr)
+        return util.validate_input(expr)
 
     @staticmethod
     def confirm(title):
@@ -163,7 +159,7 @@ class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def placeholder():
-        return "Select library for new snippet"
+        return "Select library"
 
     @staticmethod
     def list_items():
@@ -193,8 +189,8 @@ class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
 
 
 class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
-    @staticmethod
-    def run(snippet_library, **args):
+    def run(self, snippet_library, **args):
+        # group, index of view in window
         group = None
         if "group" in args:
             group = args["group"]
@@ -207,15 +203,61 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
         if "files" in args:
             files = args["files"]
 
-        print(args)
+        snippet = {
+            "title": args["snippet_title"],
+            "description": args["snippet_description"],
+            "isPrivate": args["snippet_public_private"],
+            "libraryGuid": snippet_library,
+            "labels": list()
+        }
+
+        if "snippet_label" in args and args["snippet_label"] is not None:
+            snippet["labels"] = [args["snippet_label"]]
 
         if (group is not None and group >= 0) and (index is not None and index >= 0):
             # Creating snippet from tab context
             view = sublime.active_window().sheets_in_group(group)[index].view()
-            body = view.substr(sublime.Region(0, view.size()))
+            content = view.substr(sublime.Region(0, view.size()))
+
+            snippet["files"] = [{
+                "filename": args["snippet_filename"],
+                "content": content,
+                "filetype": "text",
+                "isShared": False
+            }]
         elif files is not None and len(files) > 0:
             # Create snippet from selected file(s)
-            print(files)
+            snippet_files = []
+
+            for file in files:
+                with open(file, "r") as f:
+                    snippet_files.append({
+                        "filename": ntpath.basename(file),
+                        "content": f.read(),
+                        "filetype": "text",
+                        "isShared": False
+                    })
+
+            snippet["files"] = snippet_files
+        else:
+            # Content is either selection or the entire file content
+            view = sublime.active_window().active_view()
+            region = view.sel()[0]
+            if region.empty():
+                # Just the entire file
+                content = view.substr(sublime.Region(0, view.size()))
+            else:
+                # The selection
+                content = view.substr(region)
+
+            snippet["files"] = [{
+                "filename": args["snippet_filename"],
+                "content": content,
+                "filetype": "text",
+                "isShared": False
+            }]
+
+        self.__create_snippet(snippet)
 
     @staticmethod
     def input(args):
@@ -226,5 +268,6 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
         else:
             return SnippetTitleInputHandler(args)
 
-    def __create_snippet(self):
-        print("create")
+    @staticmethod
+    def __create_snippet(snippet):
+        print(snippet)

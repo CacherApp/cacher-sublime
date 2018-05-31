@@ -11,10 +11,6 @@ global last_run
 last_run = -1
 
 
-def validate_input(expr):
-    return len(expr) > 0
-
-
 class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
     @staticmethod
     def placeholder():
@@ -22,7 +18,7 @@ class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def validate(expr):
-        return validate_input(expr)
+        return util.validate_input(expr)
 
     @staticmethod
     def confirm(text):
@@ -36,7 +32,7 @@ class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
 
     @staticmethod
     def validate(expr):
-        return validate_input(expr)
+        return util.validate_input(expr)
 
     @staticmethod
     def confirm(text):
