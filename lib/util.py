@@ -30,7 +30,7 @@ def save_credentials(key, token):
 
 def load_config():
     file_dir = os.path.dirname(__file__)
-    config_file = os.path.join(file_dir, "../", "config.dev.yml")
+    config_file = os.path.join(file_dir, "../", "config.yml")
 
     with open(config_file, "r") as ymlfile:
         return yaml.load(ymlfile)
