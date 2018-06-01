@@ -54,9 +54,9 @@ Search for and insert a snippet file from your personal and team libraries.
 
 The **Insert Snippet** command can be be launched from:
 - [Command Palette](#command-palette)
-- Keyboard shortcut
-- Context menu
-- Tools -> Cacher
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Context Menu](#context-menu)
+- [Tools -> Cacher](#tools---cacher)
 
 ### Create Snippet
 
@@ -75,11 +75,11 @@ Create a snippet from either the text selection or the entire file (no selection
 
 The **Create Snippet** command can be launched from:
 - [Command Palette](#command-palette)
-- Keyboard shortcut
-- Context menu
-- Tab context menu
-- Sidebar menu
-- Tools -> Cacher
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Context Menu](#context-menu)
+- [Tab Context Menu](#tab-context-menu)
+- [Sidebar Menu](sidebar-menu)
+- [Tools -> Cacher](#tools---cacher)
 
 ### Open Snippet in App
 
@@ -89,8 +89,8 @@ Find a snippet from your libraries and open it in the Cacher web app.
 
 The **Open Snippet in App** command can be be launched from:
 - [Command Palette](#command-palette)
-- Keyboard shortcut
-- Tools -> Cacher
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Tools -> Cacher](#tools---cacher)
 
 ### Open Snippet Page
 
@@ -100,8 +100,8 @@ Find a snippet from your libraries and open its Snippets page ([example](https:/
 
 The **Open Snippet Page** command can be be launched from:
 - [Command Palette](#command-palette)
-- Keyboard shortcut
-- Tools -> Cacher
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Tools -> Cacher](#tools---cacher)
 
 ### Refresh Snippets
 
@@ -110,24 +110,88 @@ The **Open Snippet Page** command can be be launched from:
 Reload your Cacher snippets. Do this once you've made a change to your snippets outside of Sublime.
 
 The **Refresh Snippets** command can be be launched from:
-- Command Palette
-- Keyboard shortcut
-- Tools -> Cacher
+- [Command Palette](#command-palette)
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Tools -> Cacher](#tools---cacher)
 
 ### Setup
 
 Kick off the setup wizard to authenticate your Cacher account. Run this command if you need to switch users.
 
+The **Setup** command can be be launched from:
+- [Command Palette](#command-palette)
+- [Keyboard Shortcut](#keyboard-shortcut)
+- [Tools -> Cacher](#tools---cacher)
+
 ## Launch Commands
 
 ### Command Palette
 
+This is the standard way to access Sublime commands. Use keyboard shortcut: **Ctrl/Cmd+Shift+P**.
+
+![Command Palette](images/command-palette.png "Command Palette")
+
 ### Keyboard Shortcut
+
+The fastest way to access Cacher commands.
+
+- **Alt+Shift+I** - Insert Snippet
+- **Alt+Shift+C** - Create Snippet
+- **Alt+Shift+O** - Open Snippet in App
+- **Alt+Shift+P** - Open Snippet Page
+- **Alt+Shift+R** - Refresh Snippets
 
 ### Context Menu
 
+While in an active editor, you can right-click the background to either **Insert Snippet** or **Create Snippet**.
+
+*With a text selection*
+- **Insert Snippet** will replace the selected text with the snippet file content.
+- **Create Snippet** will create a snippet with the selected text as its file content.
+
+*Without a text selection*
+- **Insert Snippet** will insert the snippet file content at the caret.
+- **Create Snippet** will create a snippet from the entire file's content.
+
+![Context Menu](images/context-menu.png "Context Menu")
+
 ### Tab Context Menu
+
+You can right-click on any tab in the window to trigger the **Create Snippet** command.
+
+![Tab Context Menu](images/tab-context-menu.png "Tab Context Menu")
 
 ### Sidebar Menu
 
+Select one or more files in the sidebar to send to the **Create Snippet** command. The new snippet will contain contents of the selected files.
+
+![Sidebar Menu](images/sidebar-menu.png "Sidebar Menu")
+
 ### Tools -> Cacher
+
+Cacher adds a submenu to the **Tools** menu. You can find all the available commands here.
+
+![Tools->Cacher](images/tools-cacher.png "Tools->Cacher")
+
+## Requirements
+
+The Cacher Sublime plugin is available for registered users on a Pro/Team plan. For a 14-day free Team trial, sign up at [app.cacher.io](https://app.cacher.io).
+
+## Getting Help
+
+Find help articles and file support tickets: [support.cacher.io](https://support.cacher.io)
+
+## Release Notes
+
+### 1.0.0
+
+Initial release of Cacher plugin. 
+
+Adds commands:
+
+- Insert Snippet
+- Create Snippet
+- Open Snippet in App
+- Open Snippet Page
+- Refresh Snippets
+- Setup
