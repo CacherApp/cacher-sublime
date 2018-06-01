@@ -1,0 +1,4 @@
+hosts:
+    app: https://app.cacher.test
+    api: https://api.cacher.test
+    snippets: https://snippets.cacher.test

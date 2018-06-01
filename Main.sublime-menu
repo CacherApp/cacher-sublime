@@ -1,0 +1,45 @@
+[
+    {
+        "id": "tools",
+        "children": [
+            {
+                "caption": "Cacher",
+                "children": [
+                    {
+                        "command": "cacher_create_snippet",
+                        "caption": "Create Snippet"
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
+                        "command": "cacher_insert_snippet",
+                        "caption": "Insert Snippet"
+                    },
+                    {
+                        "caption": "Open Snippet in App",
+                        "command": "cacher_open_snippet"
+                    },
+                    {
+                        "caption": "Open Snippet Page",
+                        "command": "cacher_open_snippet_page"
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
+                        "caption": "Refresh Snippets",
+                        "command": "cacher_refresh"
+                    },
+                    {
+                        "caption": "-"
+                    },
+                    {
+                        "caption": "Setup",
+                        "command": "cacher_setup"
+                    }
+                ]
+            }
+        ]
+    }
+]
