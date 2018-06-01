@@ -270,12 +270,7 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
 
     @staticmethod
     def input(args):
-        # Don't pick library if we don't need to
-        teams = store.get_val("teams")
-        if len(teams) > 0:
-            return SnippetLibraryInputHandler(args)
-        else:
-            return SnippetTitleInputHandler(args)
+        return SnippetLibraryInputHandler(args)
 
     @staticmethod
     def __create_snippet(snippet, labels, library_guid):
