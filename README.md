@@ -53,7 +53,7 @@ This package for Sublime Text gives Cacher users the ability to perform popular 
 Search for and insert a snippet file from your personal and team libraries.
 
 The **Insert Snippet** command can be be launched from:
-- [Command Palette](###command-palette)
+- [Command Palette](#command-palette)
 - Keyboard shortcut
 - Context menu
 - Tools -> Cacher
@@ -74,7 +74,7 @@ Create a snippet from either the text selection or the entire file (no selection
 > Pro tip: You can create a single snippet from multiple files selected in the sidebar.. 
 
 The **Create Snippet** command can be launched from:
-- [Command Palette](###command-palette)
+- [Command Palette](#command-palette)
 - Keyboard shortcut
 - Context menu
 - Tab context menu
@@ -88,7 +88,7 @@ The **Create Snippet** command can be launched from:
 Find a snippet from your libraries and open it in the Cacher web app.
 
 The **Open Snippet in App** command can be be launched from:
-- [Command Palette](###command-palette)
+- [Command Palette](#command-palette)
 - Keyboard shortcut
 - Tools -> Cacher
 
@@ -99,7 +99,7 @@ The **Open Snippet in App** command can be be launched from:
 Find a snippet from your libraries and open its Snippets page ([example](https://snippets.cacher.io/snippet/b49ccec98297a95d97e8)).
 
 The **Open Snippet Page** command can be be launched from:
-- [Command Palette](###command-palette)
+- [Command Palette](#command-palette)
 - Keyboard shortcut
 - Tools -> Cacher
 
