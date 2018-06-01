@@ -10,6 +10,7 @@ Features:
 - Shareable snippet pages via Cacher's code-sharing community: [snippets.cacher.io](https://snippets.cacher.io/)
 - Team and organization features like shared libraries, notifications, role management and code reviews.
 - Desktop clients for Windows, macOS and Linux.
+- Editor plugins for [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Cacher.cacher-vscode), [Atom](https://atom.io/packages/cacher) and [Sublime Text](https://packagecontrol.io/packages/Cacher).  
 - Full-featured web app: [app.cacher.io](https://app.cacher.io/)
 
 ## About Cacher package
@@ -182,18 +183,3 @@ The Cacher Sublime plugin is available for registered users on a Pro/Team plan. 
 ## Getting Help
 
 Find help articles and file support tickets: [support.cacher.io](https://support.cacher.io)
-
-## Release Notes
-
-### 1.0.0
-
-Initial release of Cacher plugin. 
-
-Adds commands:
-
-- Insert Snippet
-- Create Snippet
-- Open Snippet in App
-- Open Snippet Page
-- Refresh Snippets
-- Setup
