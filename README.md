@@ -16,6 +16,8 @@ Features:
 
 This package for Sublime Text gives Cacher users the ability to perform popular actions on their personal and team snippet libraries.
 
+![Cacher Demo](images/cacher-demo.gif "Cacher Demo")
+
 ## Getting Started
 
 1. Open the Sublime Text Command Palette (Ctrl/Cmd+Shift+P) and enter the command **Package Control: Install Package**.
