@@ -1,7 +1,7 @@
 import sublime
 import json
 import urllib
-from . import store, util
+from . import util
 
 global initialized
 initialized = False
@@ -13,7 +13,7 @@ def initialize():
 
 
 def snippet_with_guid(guid):
-    for snippet in store.get_val("snippets"):
+    for snippet in util.store().get("snippets"):
         if snippet["guid"] == guid:
             return snippet
 
@@ -23,7 +23,7 @@ def snippet_with_guid(guid):
 def snippets_for_list():
     list_snippets = []
 
-    for snippet in store.get_val("snippets"):
+    for snippet in util.store().get("snippets"):
         description = snippet["description"] or ""
 
         if snippet["team"]:
@@ -66,7 +66,8 @@ def __set_store(data):
 
 
 def __set_snippets(data):
-    store.set_val("personal_library", data["personalLibrary"])
+    store = util.store()
+    store.set("personal_library", data["personalLibrary"])
 
     labels = data["personalLibrary"]["labels"]
     personal_snippets = []
@@ -92,7 +93,7 @@ def __set_snippets(data):
             copy["labels"] = __snippet_labels(labels, snippet)
             team_snippets.append(copy)
 
-    store.set_val("snippets", personal_snippets + team_snippets)
+    store.set("snippets", personal_snippets + team_snippets)
 
 
 def __snippet_labels(labels, snippet):
@@ -110,4 +111,4 @@ def __snippet_labels(labels, snippet):
 
 
 def __set_teams(data):
-    store.set_val("teams", data["teams"])
+    util.store().set("teams", data["teams"])

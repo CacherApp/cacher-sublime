@@ -1,6 +1,6 @@
 import sublime_plugin
 import sublime
-from .lib import store, snippets, util
+from .lib import snippets, util
 
 
 # Called when Cacher loads
@@ -17,7 +17,7 @@ class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):
     def list_items():
         list_snippets = []
 
-        for snippet in store.get_val("snippets"):
+        for snippet in util.store().get("snippets"):
             for file in snippet["files"]:
                 description = snippet["description"] or ""
 

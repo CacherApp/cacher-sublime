@@ -4,13 +4,15 @@ import ntpath
 import json
 import urllib
 
-from .lib import store, util, filetypes
+from .lib import util, filetypes
 
 
 def library_labels(library_guid):
+    store = util.store()
+
     libraries = list()
-    libraries.append(store.get_val("personal_library"))
-    libraries += list(map(lambda team: team["library"], store.get_val("teams")))
+    libraries.append(store.get("personal_library"))
+    libraries += list(map(lambda team: team["library"], store.get("teams")))
 
     library = list(filter(lambda lib: lib["guid"] == library_guid, libraries))[0]
     return library["labels"]
@@ -26,16 +28,17 @@ class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def list_items():
+        store = util.store()
         items = []
 
         # Personal
-        personal_library_guid = store.get_val("personal_library")["guid"]
+        personal_library_guid = store.get("personal_library")["guid"]
         items.append(
             ("Personal Library", personal_library_guid)
         )
 
         # Teams
-        for team in store.get_val("teams"):
+        for team in store.get("teams"):
             items.append(
                 (team["name"], team["library"]["guid"])
             )
@@ -117,7 +120,10 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
         else:
             # Otherwise use filename of active view
             view = sublime.active_window().active_view()
-            return ntpath.basename(view.file_name())
+            if view.file_name() is None:
+                return "untitled"
+            else:
+                return ntpath.basename(view.file_name())
 
     @staticmethod
     def validate(expr):
@@ -153,7 +159,7 @@ class SnippetPublicPrivateInputHandler(sublime_plugin.ListInputHandler):
 
     @staticmethod
     def next_input(args):
-        library_guid = store.get_val("personal_library")["guid"]
+        library_guid = util.store().get("personal_library")["guid"]
 
         if "snippet_library" in args:
             library_guid = args["snippet_library"]
@@ -174,7 +180,7 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
         return "Label (optional)"
 
     def list_items(self):
-        library_guid = store.get_val("personal_library")["guid"]
+        library_guid = util.store().get("personal_library")["guid"]
 
         if "snippet_library" in self.args:
             library_guid = self.args["snippet_library"]

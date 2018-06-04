@@ -32,6 +32,10 @@ def settings():
     return sublime.load_settings("Cacher.sublime-settings")
 
 
+def store():
+    return sublime.load_settings("Store.sublime-settings")
+
+
 def validate_input(expr):
     return len(expr) > 0
 

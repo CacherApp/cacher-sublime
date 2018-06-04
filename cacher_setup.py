@@ -4,7 +4,7 @@ import webbrowser
 import json
 import urllib
 import time
-from .lib import store, util, snippets
+from .lib import util, snippets
 
 global last_run
 last_run = -1
@@ -54,7 +54,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             req = urllib.request.Request(url, data=None, headers=headers, method="POST")
             urllib.request.urlopen(req)
 
-            store.set_val("logged_in", True)
+            util.store().set("logged_in", True)
             util.save_credentials(setup_api_key_handler, setup_api_token_handler)
             snippets.load_snippets()
 
