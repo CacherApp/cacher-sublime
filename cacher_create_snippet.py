@@ -197,7 +197,7 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
         return label_guid
 
 
-class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
+class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
     def run(self, snippet_library, **args):
         # group, index of view in window
         group = None
