@@ -58,6 +58,8 @@ def load_snippets():
         sublime.status_message("Cacher: Snippets loaded")
     except urllib.error.HTTPError as e:
         return
+    except IOError:
+        util.prompt_user_setup()
 
 
 def __set_store(data):

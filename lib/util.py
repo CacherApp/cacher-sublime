@@ -12,11 +12,8 @@ def credentials_exist():
 
 
 def get_credentials():
-    if credentials_exist():
-        with open(credentials_file, "r") as creds_file:
-            return json.load(creds_file)
-    else:
-        return None
+    with open(credentials_file, "r") as creds_file:
+        return json.load(creds_file)
 
 
 def save_credentials(key, token):
@@ -46,3 +43,8 @@ def request_headers():
         'X-Api-Key': credentials["key"],
         'x-Api-Token': credentials["token"]
     }
+
+
+def prompt_user_setup():
+    if sublime.ok_cancel_dialog("Cacher needs to be setup before use", "Start Setup"):
+        sublime.active_window().run_command("cacher_setup")

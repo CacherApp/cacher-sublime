@@ -6,8 +6,7 @@ from .lib import snippets, util
 # Called when Cacher loads
 def plugin_loaded():
     if not util.credentials_exist():
-        if sublime.ok_cancel_dialog("Cacher needs to be setup before use", "Start Setup"):
-            sublime.active_window().run_command("cacher_setup")
+        util.prompt_user_setup()
     else:
         snippets.initialize()
 

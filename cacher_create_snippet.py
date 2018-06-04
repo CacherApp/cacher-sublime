@@ -299,3 +299,5 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
         except urllib.error.HTTPError as e:
             sublime.error_message("There was an error creating your snippet. Please try again.")
             print(e)
+        except IOError:
+            util.prompt_user_setup()
