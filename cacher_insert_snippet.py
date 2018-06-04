@@ -18,7 +18,7 @@ class InsertSnippetInputHandler(sublime_plugin.ListInputHandler):
 
         for snippet in util.store().get("snippets"):
             for file in snippet["files"]:
-                description = snippet["description"] or ""
+                description = snippet.get("description", "")
 
                 if snippet["team"]:
                     description = "[{0}] {1}".format(snippet["team"]["name"], description)

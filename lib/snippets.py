@@ -24,7 +24,7 @@ def snippets_for_list():
     list_snippets = []
 
     for snippet in util.store().get("snippets"):
-        description = snippet["description"] or ""
+        description = snippet.get("description", "")
 
         if snippet["team"]:
             description = "[{0}] {1}".format(snippet["team"]["name"], description)
