@@ -1,4 +1,0 @@
-hosts:
-    app: https://app.cacher.io
-    api: https://api.cacher.io
-    snippets: https://snippets.cacher.io

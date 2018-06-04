@@ -6,7 +6,6 @@ import urllib
 import time
 from .lib import store, util, snippets
 
-config = util.load_config()
 global last_run
 last_run = -1
 
@@ -49,7 +48,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
             'X-Api-Key': setup_api_key_handler,
             'x-Api-Token': setup_api_token_handler
         }
-        url = "{0}/sublime/validate".format(config["hosts"]["api"])
+        url = "{0}/sublime/validate".format(util.settings().get("apiHost"))
 
         try:
             req = urllib.request.Request(url, data=None, headers=headers, method="POST")
@@ -72,7 +71,7 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
         last_run = int(time.time())
 
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
-            webbrowser.open("{0}/enter?action=view_api_creds".format(config["hosts"]["app"]))
+            webbrowser.open("{0}/enter?action=view_api_creds".format(util.settings().get("appHost")))
         return SetupApiKeyHandler()
 
     @staticmethod
@@ -84,6 +83,6 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
                 sublime.error_message("Cacher API key or token not valid. Please try again.")
             else:
                 if sublime.ok_cancel_dialog("Upgrade to the Pro or Team plan to use Sublime with Cacher.", "View Plans"):
-                    webbrowser.open("{0}/enter?action=view_plans".format(config["hosts"]["app"]))
+                    webbrowser.open("{0}/enter?action=view_plans".format(util.settings().get("appHost")))
         else:
             sublime.error_message("There was an error communicating with Cacher. Please try again.")

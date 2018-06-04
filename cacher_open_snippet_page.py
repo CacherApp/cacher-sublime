@@ -2,8 +2,6 @@ import sublime_plugin
 import webbrowser
 from .lib import snippets, util
 
-config = util.load_config()
-
 
 class OpenSnippetPageInputHandler(sublime_plugin.ListInputHandler):
     @staticmethod
@@ -17,7 +15,7 @@ class CacherOpenSnippetPage(sublime_plugin.TextCommand):
         if not open_snippet_page:
             return
 
-        webbrowser.open("{0}/snippet/{1}".format(config["hosts"]["snippets"], open_snippet_page))
+        webbrowser.open("{0}/snippet/{1}".format(util.settings().get("snippetsHost"), open_snippet_page))
 
     @staticmethod
     def input(args):

@@ -6,8 +6,6 @@ import urllib
 
 from .lib import store, util, filetypes
 
-config = util.load_config()
-
 
 def library_labels(library_guid):
     libraries = list()
@@ -274,7 +272,7 @@ class CacherCreateSnippetCommand(sublime_plugin.WindowCommand):
 
     @staticmethod
     def __create_snippet(snippet, labels, library_guid):
-        url = "{0}/sublime/snippets".format(config["hosts"]["api"])
+        url = "{0}/sublime/snippets".format(util.settings().get("apiHost"))
         data = {
             "snippet": snippet,
             "labels": labels,

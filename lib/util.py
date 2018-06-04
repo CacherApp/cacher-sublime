@@ -1,6 +1,6 @@
+import sublime
 import os.path
 import json
-import yaml
 
 home = os.path.expanduser("~")
 cacher_dir = os.path.join(home, ".cacher")
@@ -28,12 +28,8 @@ def save_credentials(key, token):
         json.dump(content, file)
 
 
-def load_config():
-    file_dir = os.path.dirname(__file__)
-    config_file = os.path.join(file_dir, "../", "config.yml")
-
-    with open(config_file, "r") as ymlfile:
-        return yaml.load(ymlfile)
+def settings():
+    return sublime.load_settings("Cacher.sublime-settings")
 
 
 def validate_input(expr):

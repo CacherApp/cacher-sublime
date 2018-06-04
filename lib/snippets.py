@@ -3,7 +3,6 @@ import json
 import urllib
 from . import store, util
 
-config = util.load_config()
 global initialized
 initialized = False
 
@@ -45,7 +44,7 @@ def load_snippets():
     if not util.credentials_exist():
         return
 
-    url = "{0}/sublime/snippets".format(config["hosts"]["api"])
+    url = "{0}/sublime/snippets".format(util.settings().get("apiHost"))
 
     try:
         req = urllib.request.Request(url, data=None, headers=util.request_headers())
