@@ -60,7 +60,7 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
 
             sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:
-            self.__handle_error(e)
+            self.handle_error(e)
 
     @staticmethod
     def input(args):
@@ -75,7 +75,7 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
         return SetupApiKeyHandler()
 
     @staticmethod
-    def __handle_error(e):
+    def handle_error(e):
         resp = json.loads(e.read().decode("utf8"))
 
         if e.code == 403:

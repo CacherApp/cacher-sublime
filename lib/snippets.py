@@ -51,7 +51,7 @@ def load_snippets():
         resp = urllib.request.urlopen(req)
         data = json.loads(resp.read().decode("utf8"))
 
-        __set_store(data)
+        set_store(data)
         global initialized
         initialized = True
 
@@ -62,12 +62,12 @@ def load_snippets():
         util.prompt_user_setup()
 
 
-def __set_store(data):
-    __set_snippets(data)
-    __set_teams(data)
+def set_store(data):
+    set_snippets(data)
+    set_teams(data)
 
 
-def __set_snippets(data):
+def set_snippets(data):
     store = util.store()
     store.set("personal_library", data["personalLibrary"])
 
@@ -79,7 +79,7 @@ def __set_snippets(data):
         copy.update(snippet)
 
         copy["team"] = None
-        copy["labels"] = __snippet_labels(labels, snippet)
+        copy["labels"] = snippet_labels(labels, snippet)
         personal_snippets.append(copy)
 
     team_snippets = []
@@ -92,14 +92,14 @@ def __set_snippets(data):
             copy.update(snippet)
 
             copy["team"] = team
-            copy["labels"] = __snippet_labels(labels, snippet)
+            copy["labels"] = snippet_labels(labels, snippet)
             team_snippets.append(copy)
 
     store.set("snippets", personal_snippets + team_snippets)
 
 
-def __snippet_labels(labels, snippet):
-    snippet_labels = []
+def snippet_labels(labels, snippet):
+    snip_labels = []
 
     for label in labels:
         has_snippet = False
@@ -107,10 +107,10 @@ def __snippet_labels(labels, snippet):
             if label_snippet["guid"] == snippet["guid"]:
                 has_snippet = True
         if has_snippet:
-            snippet_labels.append(label["title"])
+            snip_labels.append(label["title"])
 
-    return snippet_labels
+    return snip_labels
 
 
-def __set_teams(data):
+def set_teams(data):
     util.store().set("teams", data["teams"])

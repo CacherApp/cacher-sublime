@@ -105,13 +105,8 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
 
     def initial_text(self):
         # Fetch the filename from active view
-        group = None
-        if "group" in self.args:
-            group = self.args["group"]
-
-        index = None
-        if "index" in self.args:
-            index = self.args["index"]
+        group = self.args.get("group", None)
+        index = self.args.get("index", None)
 
         if (group is not None and group >= 0) and (index is not None and index >= 0):
             # Creating snippet from tab context
@@ -200,17 +195,9 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
 class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
     def run(self, snippet_library, **args):
         # group, index of view in window
-        group = None
-        if "group" in args:
-            group = args["group"]
-
-        index = None
-        if "index" in args:
-            index = args["index"]
-
-        files = None
-        if "files" in args:
-            files = args["files"]
+        group = args.get("group", None)
+        index = args.get("index", None)
+        files = args.get("files", None)
 
         snippet = {
             "title": args["snippet_title"],
@@ -270,14 +257,14 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
         if "snippet_label" in args and args["snippet_label"] is not None:
             labels = [args["snippet_label"]]
 
-        self.__create_snippet(snippet, labels, snippet_library)
+        self.create_snippet(snippet, labels, snippet_library)
 
     @staticmethod
     def input(args):
         return SnippetLibraryInputHandler(args)
 
     @staticmethod
-    def __create_snippet(snippet, labels, library_guid):
+    def create_snippet(snippet, labels, library_guid):
         url = "{0}/sublime/snippets".format(util.settings().get("apiHost"))
         data = {
             "snippet": snippet,
