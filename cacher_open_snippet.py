@@ -1,5 +1,4 @@
 import sublime_plugin
-import webbrowser
 from .lib import snippets, util
 
 
@@ -20,11 +19,11 @@ class CacherOpenSnippet(sublime_plugin.TextCommand):
             return
 
         if snippet["team"]:
-            webbrowser.open("{0}/enter?action=goto_team_snippet&t={1}&s={2}"
-                            .format(util.settings().get("appHost"), snippet["team"]["guid"], snippet["guid"]))
+            util.open_url("{0}/enter?action=goto_team_snippet&t={1}&s={2}"
+                          .format(util.settings().get("appHost"), snippet["team"]["guid"], snippet["guid"]))
         else:
-            webbrowser.open("{0}/enter?action=goto_snippet&s={1}"
-                            .format(util.settings().get("appHost"), snippet["guid"]))
+            util.open_url("{0}/enter?action=goto_snippet&s={1}"
+                          .format(util.settings().get("appHost"), snippet["guid"]))
 
     @staticmethod
     def input(args):
