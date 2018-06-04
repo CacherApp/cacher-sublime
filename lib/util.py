@@ -59,3 +59,12 @@ def open_url(url):
     if result.scheme and result.netloc and result.path:
         webbrowser.open(url)
 
+
+def show_server_error():
+    sublime.error_message("There was an error communicating with the Cacher server. Please try again.")
+
+
+def show_credentials_parse_error():
+    sublime.error_message(
+        "There was an error loading your Cacher credentials file. Please run \"Cacher: Setup\"."
+    )

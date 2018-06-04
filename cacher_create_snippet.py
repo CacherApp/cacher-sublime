@@ -288,3 +288,5 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
             print(e)
         except IOError:
             util.prompt_user_setup()
+        except ValueError:
+            util.show_credentials_parse_error()

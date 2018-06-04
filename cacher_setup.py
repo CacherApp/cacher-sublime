@@ -75,7 +75,10 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
 
     @staticmethod
     def handle_error(e):
-        resp = json.loads(e.read().decode("utf8"))
+        try:
+            resp = json.loads(e.read().decode("utf8"))
+        except ValueError:
+            util.show_server_error()
 
         if e.code == 403:
             if resp["error_code"] == "NoPermission":

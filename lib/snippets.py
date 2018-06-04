@@ -49,17 +49,22 @@ def load_snippets():
     try:
         req = urllib.request.Request(url, data=None, headers=util.request_headers())
         resp = urllib.request.urlopen(req)
-        data = json.loads(resp.read().decode("utf8"))
+        try:
+            data = json.loads(resp.read().decode("utf8"))
+        except ValueError:
+            util.show_server_error()
 
         set_store(data)
         global initialized
         initialized = True
 
         sublime.status_message("Cacher: Snippets loaded")
-    except urllib.error.HTTPError as e:
-        return
     except IOError:
         util.prompt_user_setup()
+    except urllib.error.HTTPError:
+        return
+    except ValueError:
+        util.show_credentials_parse_error()
 
 
 def set_store(data):
