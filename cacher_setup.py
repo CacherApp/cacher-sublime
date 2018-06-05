@@ -41,7 +41,7 @@ class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
         return SetupApiTokenHandler()
 
 
-class CacherSetupCommand(sublime_plugin.ApplicationCommand):
+class CacherSetupCommand(sublime_plugin.TextCommand):
     def run(self, edit, setup_api_key_handler, setup_api_token_handler):
         headers = {
             'X-Api-Key': setup_api_key_handler,
