@@ -8,9 +8,9 @@ class OpenSnippetPageInputHandler(sublime_plugin.ListInputHandler):
         return snippets.snippets_for_list()
 
 
-class CacherOpenSnippetPage(sublime_plugin.TextCommand):
+class CacherOpenSnippetPage(sublime_plugin.ApplicationCommand):
     @staticmethod
-    def run(edit, open_snippet_page):
+    def run(open_snippet_page):
         if not open_snippet_page:
             return
 
