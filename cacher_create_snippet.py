@@ -284,7 +284,7 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
 
             urllib.request.urlopen(req, json_data_bytes)
             sublime.status_message("Cacher: Saved \"{0}\"".format(snippet["title"]))
-            sublime.active_window().run_command("cacher_refresh")
+            sublime.run_command("cacher_refresh")
         except urllib.error.HTTPError as e:
             sublime.error_message("There was an error creating your snippet. Please try again.")
             print(e)

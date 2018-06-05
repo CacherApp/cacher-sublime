@@ -49,20 +49,19 @@ def request_headers():
 
 def prompt_user_setup():
     if sublime.ok_cancel_dialog("Cacher needs to be setup before use", "Start Setup"):
-        sublime.active_window().run_command("cacher_setup")
+        sublime.run_command("cacher_setup")
 
 
-def open_url(url):
+def open_url(host, path, **kwargs):
+    url = host + path + "?" + urlencode(kwargs)
+    if kwargs is not None:
+        url += "?" + urlencode(kwargs)
+
     result = urlparse(url)
 
-    # Validate URL before opening
+    # Validate URL
     if result.scheme and result.netloc and result.path:
         webbrowser.open(url)
-
-
-def open_app_url(path, **kwargs):
-    url = settings().get("appHost") + path + "?" + urlencode(kwargs)
-    open_url(url)
 
 
 def show_server_error():

@@ -60,7 +60,11 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
     @staticmethod
     def input(args):
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
-            util.open_url("{0}/enter?action=view_api_creds".format(util.settings().get("appHost")))
+            util.open_url(
+                host=util.settings().get("appHost"),
+                path="/enter",
+                action="view_api_creds"
+            )
         return SetupApiKeyHandler()
 
     @staticmethod
@@ -75,6 +79,10 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
                 sublime.error_message("Cacher API key or token not valid. Please try again.")
             else:
                 if sublime.ok_cancel_dialog("Upgrade to the Pro or Team plan to use Sublime with Cacher.", "View Plans"):
-                    util.open_url("{0}/enter?action=view_plans".format(util.settings().get("appHost")))
+                    util.open_url(
+                        host=util.settings().get("appHost"),
+                        path="/enter",
+                        action="view_plans"
+                    )
         else:
             sublime.error_message("There was an error communicating with Cacher. Please try again.")

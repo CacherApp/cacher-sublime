@@ -19,11 +19,20 @@ class CacherOpenSnippet(sublime_plugin.ApplicationCommand):
             return
 
         if snippet["team"]:
-            util.open_url("{0}/enter?action=goto_team_snippet&t={1}&s={2}"
-                          .format(util.settings().get("appHost"), snippet["team"]["guid"], snippet["guid"]))
+            util.open_url(
+                host=util.settings().get("appHost"),
+                path="/enter",
+                action="goto_team_snippet",
+                t=snippet["team"]["guid"],
+                s=snippet["guid"]
+            )
         else:
-            util.open_url("{0}/enter?action=goto_snippet&s={1}"
-                          .format(util.settings().get("appHost"), snippet["guid"]))
+            util.open_url(
+                host=util.settings().get("appHost"),
+                path="/enter",
+                action="goto_snippet",
+                s=snippet["guid"]
+            )
 
     @staticmethod
     def input(args):
