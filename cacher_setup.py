@@ -2,11 +2,7 @@ import sublime
 import sublime_plugin
 import json
 import urllib
-import time
 from .lib import util, snippets
-
-global last_run
-last_run = -1
 
 
 class SetupApiTokenHandler(sublime_plugin.TextInputHandler):
@@ -63,12 +59,6 @@ class CacherSetupCommand(sublime_plugin.TextCommand):
 
     @staticmethod
     def input(args):
-        # De-dupe multiple calls
-        global last_run
-        if int(time.time()) - last_run < 5:
-            return SetupApiKeyHandler()
-        last_run = int(time.time())
-
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
             util.open_url("{0}/enter?action=view_api_creds".format(util.settings().get("appHost")))
         return SetupApiKeyHandler()
