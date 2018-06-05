@@ -105,13 +105,8 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
 
     def initial_text(self):
         # Fetch the filename from active view
-        group = None
-        if "group" in self.args:
-            group = self.args["group"]
-
-        index = None
-        if "index" in self.args:
-            index = self.args["index"]
+        group = self.args.get("group", None)
+        index = self.args.get("index", None)
 
         if (group is not None and group >= 0) and (index is not None and index >= 0):
             # Creating snippet from tab context
@@ -200,17 +195,9 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
 class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
     def run(self, snippet_library, **args):
         # group, index of view in window
-        group = None
-        if "group" in args:
-            group = args["group"]
-
-        index = None
-        if "index" in args:
-            index = args["index"]
-
-        files = None
-        if "files" in args:
-            files = args["files"]
+        group = args.get("group", None)
+        index = args.get("index", None)
+        files = args.get("files", None)
 
         snippet = {
             "title": args["snippet_title"],
@@ -232,20 +219,7 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
             }]
         elif files is not None and len(files) > 0:
             # Create snippet from selected file(s)
-            snippet_files = []
-
-            for file in files:
-                with open(file, "r") as f:
-                    filetype = filetypes.get_mode_for_filename(file)
-
-                    snippet_files.append({
-                        "filename": ntpath.basename(file),
-                        "content": f.read(),
-                        "filetype": filetype,
-                        "isShared": False
-                    })
-
-            snippet["files"] = snippet_files
+            snippet["files"] = list(map(self.snippet_files, files))
         else:
             # Content is either selection or the entire file content
             view = sublime.active_window().active_view()
@@ -270,14 +244,29 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
         if "snippet_label" in args and args["snippet_label"] is not None:
             labels = [args["snippet_label"]]
 
-        self.__create_snippet(snippet, labels, snippet_library)
+        self.create_snippet(snippet, labels, snippet_library)
+
+    @staticmethod
+    def snippet_files(file):
+        try:
+            with open(file, "r") as f:
+                filetype = filetypes.get_mode_for_filename(file)
+
+                return {
+                    "filename": ntpath.basename(file),
+                    "content": f.read(),
+                    "filetype": filetype,
+                    "isShared": False
+                }
+        except IOError:
+            sublime.error_message("There was an error reading files to use for your Cacher snippet. Please try again.")
 
     @staticmethod
     def input(args):
         return SnippetLibraryInputHandler(args)
 
     @staticmethod
-    def __create_snippet(snippet, labels, library_guid):
+    def create_snippet(snippet, labels, library_guid):
         url = "{0}/sublime/snippets".format(util.settings().get("apiHost"))
         data = {
             "snippet": snippet,
@@ -301,3 +290,5 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
             print(e)
         except IOError:
             util.prompt_user_setup()
+        except ValueError:
+            util.show_credentials_parse_error()

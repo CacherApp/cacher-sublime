@@ -1,6 +1,5 @@
 import sublime
 import sublime_plugin
-import webbrowser
 import json
 import urllib
 import time
@@ -42,11 +41,11 @@ class SetupApiKeyHandler(sublime_plugin.TextInputHandler):
         return SetupApiTokenHandler()
 
 
-class CacherSetupCommand(sublime_plugin.ApplicationCommand):
+class CacherSetupCommand(sublime_plugin.TextCommand):
     def run(self, edit, setup_api_key_handler, setup_api_token_handler):
         headers = {
             'X-Api-Key': setup_api_key_handler,
-            'x-Api-Token': setup_api_token_handler
+            'X-Api-Token': setup_api_token_handler
         }
         url = "{0}/sublime/validate".format(util.settings().get("apiHost"))
 
@@ -60,7 +59,7 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
 
             sublime.status_message("Cacher: Logged in")
         except urllib.error.HTTPError as e:
-            self.__handle_error(e)
+            self.handle_error(e)
 
     @staticmethod
     def input(args):
@@ -71,18 +70,21 @@ class CacherSetupCommand(sublime_plugin.ApplicationCommand):
         last_run = int(time.time())
 
         if sublime.ok_cancel_dialog("Open Cacher to view credentials", "Open Cacher"):
-            webbrowser.open("{0}/enter?action=view_api_creds".format(util.settings().get("appHost")))
+            util.open_url("{0}/enter?action=view_api_creds".format(util.settings().get("appHost")))
         return SetupApiKeyHandler()
 
     @staticmethod
-    def __handle_error(e):
-        resp = json.loads(e.read().decode("utf8"))
+    def handle_error(e):
+        try:
+            resp = json.loads(e.read().decode("utf8"))
+        except ValueError:
+            util.show_server_error()
 
         if e.code == 403:
             if resp["error_code"] == "NoPermission":
                 sublime.error_message("Cacher API key or token not valid. Please try again.")
             else:
                 if sublime.ok_cancel_dialog("Upgrade to the Pro or Team plan to use Sublime with Cacher.", "View Plans"):
-                    webbrowser.open("{0}/enter?action=view_plans".format(util.settings().get("appHost")))
+                    util.open_url("{0}/enter?action=view_plans".format(util.settings().get("appHost")))
         else:
             sublime.error_message("There was an error communicating with Cacher. Please try again.")
