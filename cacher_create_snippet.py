@@ -1,6 +1,6 @@
 import sublime_plugin
 import sublime
-import ntpath
+import os
 import json
 import urllib
 
@@ -111,14 +111,14 @@ class SnippetFilenameInputHandler(sublime_plugin.TextInputHandler):
         if (group is not None and group >= 0) and (index is not None and index >= 0):
             # Creating snippet from tab context
             view = sublime.active_window().sheets_in_group(group)[index].view()
-            return ntpath.basename(view.file_name())
+            return os.path.basename(view.file_name())
         else:
             # Otherwise use filename of active view
             view = sublime.active_window().active_view()
             if view.file_name() is None:
                 return "untitled"
             else:
-                return ntpath.basename(view.file_name())
+                return os.path.basename(view.file_name())
 
     @staticmethod
     def validate(expr):
@@ -253,7 +253,7 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
                 filetype = filetypes.get_mode_for_filename(file)
 
                 return {
-                    "filename": ntpath.basename(file),
+                    "filename": os.path.basename(file),
                     "content": f.read(),
                     "filetype": filetype,
                     "isShared": False

@@ -1,4 +1,4 @@
-import ntpath
+import os
 import re
 
 supported_modes = {
@@ -157,7 +157,7 @@ modes = list(
 
 
 def get_mode_for_filename(filename):
-    filename = ntpath.basename(filename)
+    filename = os.path.basename(filename)
     for mode in modes:
         for pattern in mode["patterns"]:
             if pattern[0] == "^":

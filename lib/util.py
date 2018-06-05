@@ -1,7 +1,7 @@
 import sublime
 import os.path
 import json
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 import webbrowser
 
 home = os.path.expanduser("~")
@@ -32,7 +32,7 @@ def settings():
 
 
 def store():
-    return sublime.load_settings("Store.sublime-settings")
+    return sublime.load_settings("Cacher Store.sublime-settings")
 
 
 def validate_input(expr):
@@ -58,6 +58,11 @@ def open_url(url):
     # Validate URL before opening
     if result.scheme and result.netloc and result.path:
         webbrowser.open(url)
+
+
+def open_app_url(path, **kwargs):
+    url = settings().get("appHost") + path + "?" + urlencode(kwargs)
+    open_url(url)
 
 
 def show_server_error():
