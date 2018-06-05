@@ -148,13 +148,12 @@ supported_modes = {
     "Django": ['html']
 }
 
-modes = []
-for name in supported_modes:
-    mode_name = name.lower()
-    modes.append({
-        "name": mode_name,
-        "patterns": supported_modes[name][0].split("|")
-    })
+modes = list(
+    map(
+        lambda name: {"name": name.lower(), "patterns": supported_modes[name][0].split("|")},
+        supported_modes
+    )
+)
 
 
 def get_mode_for_filename(filename):

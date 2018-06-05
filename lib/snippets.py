@@ -21,23 +21,21 @@ def snippet_with_guid(guid):
 
 
 def snippets_for_list():
-    list_snippets = []
+    return list(map(list_snippet, util.store().get("snippets")))
 
-    for snippet in util.store().get("snippets"):
-        description = snippet.get("description", "")
 
-        if snippet["team"]:
-            description = "[{0}] {1}".format(snippet["team"]["name"], description)
+def list_snippet(snippet):
+    description = snippet.get("description", "")
 
-        if len(snippet["labels"]) > 0:
-            for label in snippet["labels"]:
-                description = "({0}) {1}".format(label, description)
+    if snippet["team"]:
+        description = "[{0}] {1}".format(snippet["team"]["name"], description)
 
-        title = "{0} - {1}".format(snippet["title"], description)
-        list_snippets.append(
-            (title, snippet["guid"])
-        )
-    return list_snippets
+    if len(snippet["labels"]) > 0:
+        for label in snippet["labels"]:
+            description = "({0}) {1}".format(label, description)
+
+    title = "{0} - {1}".format(snippet["title"], description)
+    return title, snippet["guid"]
 
 
 def load_snippets():
@@ -77,30 +75,34 @@ def set_snippets(data):
     store.set("personal_library", data["personalLibrary"])
 
     labels = data["personalLibrary"]["labels"]
-    personal_snippets = []
-
-    for snippet in data["personalLibrary"]["snippets"]:
-        copy = dict()
-        copy.update(snippet)
-
-        copy["team"] = None
-        copy["labels"] = snippet_labels(labels, snippet)
-        personal_snippets.append(copy)
+    personal_snippets = list(
+        map(
+            lambda s: snippet_with_label(s, labels, None),
+            data["personalLibrary"]["snippets"]
+        )
+    )
 
     team_snippets = []
 
     for team in data["teams"]:
         labels = team["library"]["labels"]
-
-        for snippet in team["library"]["snippets"]:
-            copy = dict()
-            copy.update(snippet)
-
-            copy["team"] = team
-            copy["labels"] = snippet_labels(labels, snippet)
-            team_snippets.append(copy)
+        team_snippets += list(
+            map(
+                lambda s: snippet_with_label(s, labels, team),
+                team["library"]["snippets"]
+            )
+        )
 
     store.set("snippets", personal_snippets + team_snippets)
+
+
+def snippet_with_label(snippet, labels, team):
+    copy = dict()
+    copy.update(snippet)
+
+    copy["team"] = team
+    copy["labels"] = snippet_labels(labels, snippet)
+    return copy
 
 
 def snippet_labels(labels, snippet):

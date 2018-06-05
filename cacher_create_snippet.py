@@ -219,20 +219,7 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
             }]
         elif files is not None and len(files) > 0:
             # Create snippet from selected file(s)
-            snippet_files = []
-
-            for file in files:
-                with open(file, "r") as f:
-                    filetype = filetypes.get_mode_for_filename(file)
-
-                    snippet_files.append({
-                        "filename": ntpath.basename(file),
-                        "content": f.read(),
-                        "filetype": filetype,
-                        "isShared": False
-                    })
-
-            snippet["files"] = snippet_files
+            snippet["files"] = list(map(self.snippet_files, files))
         else:
             # Content is either selection or the entire file content
             view = sublime.active_window().active_view()
@@ -258,6 +245,21 @@ class CacherCreateSnippetCommand(sublime_plugin.ApplicationCommand):
             labels = [args["snippet_label"]]
 
         self.create_snippet(snippet, labels, snippet_library)
+
+    @staticmethod
+    def snippet_files(file):
+        try:
+            with open(file, "r") as f:
+                filetype = filetypes.get_mode_for_filename(file)
+
+                return {
+                    "filename": ntpath.basename(file),
+                    "content": f.read(),
+                    "filetype": filetype,
+                    "isShared": False
+                }
+        except IOError:
+            sublime.error_message("There was an error reading files to use for your Cacher snippet. Please try again.")
 
     @staticmethod
     def input(args):
