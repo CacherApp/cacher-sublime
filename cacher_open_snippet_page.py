@@ -14,7 +14,10 @@ class CacherOpenSnippetPage(sublime_plugin.ApplicationCommand):
         if not open_snippet_page:
             return
 
-        util.open_url("{0}/snippet/{1}".format(util.settings().get("snippetsHost"), open_snippet_page))
+        util.open_url(
+            host=util.settings().get("snippetsHost"),
+            path="/snippet/{0}".format(open_snippet_page)
+        )
 
     @staticmethod
     def input(args):
