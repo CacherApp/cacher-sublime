@@ -6,7 +6,7 @@ from .lib import snippets, util
 # Called when Cacher loads
 def plugin_loaded():
     if not util.credentials_exist():
-        util.prompt_user_setup()
+        sublime.set_timeout_async(util.prompt_user_setup)
     else:
         snippets.initialize()
 
