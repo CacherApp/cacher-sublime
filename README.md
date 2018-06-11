@@ -5,6 +5,7 @@
 [Cacher](https://www.cacher.io/) is the code snippet organizer for pro developers. It is a cross-platform, cloud-based app used to curate a snippet library for you and your team.
 
 Features:
+
 - Support for editing and viewing 100+ programming languages.
 - Flexible color-coded labels to categorize snippets.
 - Shareable snippet pages via Cacher's code-sharing community: [snippets.cacher.io](https://snippets.cacher.io/)
@@ -56,6 +57,7 @@ This package for Sublime Text gives Cacher users the ability to perform popular 
 Search for and insert a snippet file from your personal and team libraries.
 
 The **Insert Snippet** command can be be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Context Menu](#context-menu)
@@ -67,16 +69,17 @@ The **Insert Snippet** command can be be launched from:
 
 Create a snippet from either the text selection or the entire file (no selection). The command starts a wizard for you to choose:
 
- - Personal or team library (if using teams)
- - Title
- - Description - *Optional*
- - Filename
- - Public/private permission 
- - Label - *Optional*
+- Personal or team library (if using teams)
+- Title
+- Description - *Optional*
+- Filename
+- Public/private permission 
+- Label - *Optional*
 
 > Pro tip: You can create a single snippet from multiple files selected in the sidebar.. 
 
 The **Create Snippet** command can be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Context Menu](#context-menu)
@@ -91,6 +94,7 @@ The **Create Snippet** command can be launched from:
 Find a snippet from your libraries and open it in the Cacher web app.
 
 The **Open Snippet in App** command can be be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Tools -> Cacher](#tools---cacher)
@@ -102,6 +106,7 @@ The **Open Snippet in App** command can be be launched from:
 Find a snippet from your libraries and open its Snippets page ([example](https://snippets.cacher.io/snippet/b49ccec98297a95d97e8)).
 
 The **Open Snippet Page** command can be be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Tools -> Cacher](#tools---cacher)
@@ -113,6 +118,7 @@ The **Open Snippet Page** command can be be launched from:
 Reload your Cacher snippets. Do this once you've made a change to your snippets outside of Sublime.
 
 The **Refresh Snippets** command can be be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Tools -> Cacher](#tools---cacher)
@@ -122,6 +128,7 @@ The **Refresh Snippets** command can be be launched from:
 Kick off the setup wizard to authenticate your Cacher account. Run this command if you need to switch users.
 
 The **Setup** command can be be launched from:
+
 - [Command Palette](#command-palette)
 - [Keyboard Shortcut](#keyboard-shortcut)
 - [Tools -> Cacher](#tools---cacher)
@@ -149,10 +156,12 @@ The fastest way to access Cacher commands.
 While in an active editor, you can right-click the background to either **Insert Snippet** or **Create Snippet**.
 
 *With a text selection*
+
 - **Insert Snippet** will replace the selected text with the snippet file content.
 - **Create Snippet** will create a snippet with the selected text as its file content.
 
 *Without a text selection*
+
 - **Insert Snippet** will insert the snippet file content at the caret.
 - **Create Snippet** will create a snippet from the entire file's content.
 
