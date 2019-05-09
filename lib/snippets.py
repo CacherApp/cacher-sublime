@@ -123,5 +123,8 @@ def snippet_labels(labels, snippet):
 
 def set_teams(data):
     util.store().set("teams", data["teams"])
-    teams_editable = []
-
+    teams_editable = list(filter(
+        lambda team: team["userRole"] == "owner" or team["userRole"] == "manager" or team["userRole"] == "member",
+        data["teams"]
+    ))
+    util.store().set("teams_editable", teams_editable)
