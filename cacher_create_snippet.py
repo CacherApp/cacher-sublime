@@ -12,7 +12,7 @@ def library_labels(library_guid):
 
     libraries = list()
     libraries.append(store.get("personal_library"))
-    libraries += list(map(lambda team: team["library"], store.get("teams")))
+    libraries += list(map(lambda team: team["library"], store.get("teams_editable")))
 
     library = list(filter(lambda lib: lib["guid"] == library_guid, libraries))[0]
     return library["labels"]
@@ -38,7 +38,7 @@ class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
         )
 
         # Teams
-        for team in store.get("teams"):
+        for team in store.get("teams_editable"):
             items.append(
                 (team["name"], team["library"]["guid"])
             )

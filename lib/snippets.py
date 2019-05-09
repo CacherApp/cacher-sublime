@@ -35,6 +35,8 @@ def list_snippet(snippet):
             description = "({0}) {1}".format(label, description)
 
     title = "{0} - {1}".format(snippet["title"], description)
+    title = title[:150]
+
     return title, snippet["guid"]
 
 
@@ -121,3 +123,8 @@ def snippet_labels(labels, snippet):
 
 def set_teams(data):
     util.store().set("teams", data["teams"])
+    teams_editable = list(filter(
+        lambda team: team["userRole"] == "owner" or team["userRole"] == "manager" or team["userRole"] == "member",
+        data["teams"]
+    ))
+    util.store().set("teams_editable", teams_editable)
