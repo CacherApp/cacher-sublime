@@ -11,7 +11,7 @@ Features:
 - Shareable snippet pages via Cacher's code-sharing community: [snippets.cacher.io](https://snippets.cacher.io/)
 - Team and organization features like shared libraries, notifications, role management and code reviews.
 - Desktop clients for Windows, macOS and Linux.
-- Editor plugins for [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Cacher.cacher-vscode), [Atom](https://atom.io/packages/cacher) and [Sublime Text](https://packagecontrol.io/packages/Cacher).  
+- Editor plugins for [IntelliJ Platform](https://www.cacher.io/docs/integrations/editor-plugins/intellij-platform), [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Cacher.cacher-vscode), [Atom](https://atom.io/packages/cacher) and [Sublime Text](https://packagecontrol.io/packages/Cacher).  
 - Full-featured web app: [app.cacher.io](https://app.cacher.io/)
 
 ## About Cacher package
@@ -33,7 +33,7 @@ This package for Sublime Text gives Cacher users the ability to perform popular 
     ![View Credentials](images/view-credentials.png "View Credentials") 
 
 5. From the popped up webpage, sign up or sign in as a Cacher user.
-6. Once you are signed into Cacher, you should see a dialog on the top-right corner with your **API KEY** and **API TOKEN** values.
+6. Once you are signed into Cacher, you should see a dialog open with your **API KEY** and **API TOKEN** values.
 
     ![API Credentials](images/api-credentials.png "API Credentials")
 
