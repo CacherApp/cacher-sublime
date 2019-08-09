@@ -35,7 +35,7 @@ This package for Sublime Text gives Cacher users the ability to perform popular 
 5. From the popped up webpage, sign up or sign in as a Cacher user.
 6. Once you are signed into Cacher, you should see a dialog open with your **API KEY** and **API TOKEN** values.
 
-    ![API Credentials](images/api-credentials.png "API Credentials")
+    <img src="images/api-credentials.png" alt="API Credentials" width="600" />
 
 7. Back in Sublime, enter your API key from step 5 into the input prompt.
 
