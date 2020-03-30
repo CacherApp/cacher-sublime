@@ -7,11 +7,11 @@
 Features:
 
 - Support for editing and viewing 100+ programming languages.
-- Flexible color-coded labels to categorize snippets.
+- Flexible, nest-able, color-coded labels to categorize snippets.
 - Shareable snippet pages via Cacher's code-sharing community: [snippets.cacher.io](https://snippets.cacher.io/)
 - Team and organization features like shared libraries, notifications, role management and code reviews.
 - Desktop clients for Windows, macOS and Linux.
-- Editor plugins for [IntelliJ Platform](https://www.cacher.io/docs/integrations/editor-plugins/intellij-platform), [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Cacher.cacher-vscode), [Atom](https://atom.io/packages/cacher) and [Sublime Text](https://packagecontrol.io/packages/Cacher).  
+- Editor plugins for [IntelliJ Platform](https://www.cacher.io/docs/integrations/editor-plugins/intellij-platform), [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Cacher.cacher-vscode), [Atom](https://atom.io/packages/cacher) and [Sublime Text](https://packagecontrol.io/packages/Cacher).
 - Full-featured web app: [app.cacher.io](https://app.cacher.io/)
 
 ## About Cacher package
@@ -30,7 +30,7 @@ This package for Sublime Text gives Cacher users the ability to perform popular 
 
 4. You'll be presented with an option to view credentials. Click **Open Cacher**. You can also navigate to the page via: [app.cacher.io/enter?action=view_api_creds](https://app.cacher.io/enter?action=view_api_creds)
 
-    ![View Credentials](images/view-credentials.png "View Credentials") 
+    ![View Credentials](images/view-credentials.png "View Credentials")
 
 5. From the popped up webpage, sign up or sign in as a Cacher user.
 6. Once you are signed into Cacher, you should see a dialog open with your **API KEY** and **API TOKEN** values.
@@ -73,10 +73,10 @@ Create a snippet from either the text selection or the entire file (no selection
 - Title
 - Description - *Optional*
 - Filename
-- Public/private permission 
+- Public/private permission
 - Label - *Optional*
 
-> Pro tip: You can create a single snippet from multiple files selected in the sidebar.. 
+> Pro tip: You can create a single snippet from multiple files selected in the sidebar..
 
 The **Create Snippet** command can be launched from:
 

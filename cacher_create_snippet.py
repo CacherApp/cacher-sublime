@@ -18,6 +18,51 @@ def library_labels(library_guid):
     return library["labels"]
 
 
+def labels_as_tree(labels, all_labels):
+    tree_labels = list()
+
+    for label in labels:
+        if label["parent"] is None:
+            tree_labels.append(populate_label_children(label, all_labels))
+
+    return sorted(labels, key=lambda curr_label: curr_label["labelOrder"])
+
+
+def populate_label_children(label, all_labels):
+    filled_label = list(filter(lambda curr_label: curr_label["guid"] == label["guid"], all_labels))[0]
+
+    if len(filled_label["children"]) == 0:
+        return filled_label
+    else:
+        child_labels = list(
+            map(
+                lambda child: populate_label_children(child, all_labels),
+                filled_label["children"]
+            )
+        )
+        sorted_child_labels = sorted(
+            child_labels,
+            key=lambda child: child["labelOrder"]
+        )
+        filled_label["children"] = sorted_child_labels
+        return filled_label
+
+
+def nested_options(labels, level=0, collector=list()):
+    for label in labels:
+        # Extra spaces to denote level
+        title = "    " * level + label["title"]
+
+        collector.append(
+            (title, label["guid"])
+        )
+
+        if len(label["children"]) > 0:
+            collector += nested_options(label["children"], level + 1)
+
+    return collector
+
+
 class SnippetLibraryInputHandler(sublime_plugin.ListInputHandler):
     def __init__(self, args):
         self.args = args
@@ -181,11 +226,7 @@ class SnippetLabelInputHandler(sublime_plugin.ListInputHandler):
             library_guid = self.args["snippet_library"]
 
         labels = library_labels(library_guid)
-        label_items = list(map(lambda lab: (lab["title"], lab["guid"]), labels))
-
-        return [
-                   ("(No label)", None)
-               ] + label_items
+        return [("(No label)", None)] + nested_options(labels_as_tree(labels, labels))
 
     @staticmethod
     def confirm(label_guid):
